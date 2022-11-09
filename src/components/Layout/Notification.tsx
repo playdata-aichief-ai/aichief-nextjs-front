@@ -1,15 +1,12 @@
 import { Menu, Transition } from '@headlessui/react';
 import { useSession } from 'next-auth/react';
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 
 import Icon from '@/components/common/Icon';
 
-import apiService from '@/api';
+import djangoApiService from '@/api/django';
 
-import {
-  ApiClickClaimNotificationBody,
-  ApiGetClaimsNotificationsBody,
-} from '@/types';
+import { ApiClickClaimNotificationBody, result } from '@/types';
 
 export interface IHash {
   [details: string]: string;
@@ -25,22 +22,17 @@ const Notification = () => {
   process['yolo_crop'] = '거의 다 되었어요! 조금만 기다려주세요!';
   process['recognition'] = '서류 인식이 끝났습니다. 확인해주세요!';
   const { data } = useSession();
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<result[]>([]);
   const [newNoti, setNewNoti] = useState(0);
-
 
   // Notifications 불러오기
   const getNotifications = useCallback(async () => {
-    if (!data?.user.email) return;
-    const claimBody: ApiGetClaimsNotificationsBody = {
-      id: data.user.email,
-    };
-
+    if (!data?.user?.email) return;
     try {
-      const response = await apiService.claimService.apiGetClaimsNotifications(
-        claimBody
-      );
-      console.log(response.data);
+      const response =
+        await djangoApiService.notificationService.apiGetClaimsNotifications({
+          id: data.user.email,
+        });
       const result = await response.data;
       const result_new = [];
       for (const r of result) {
@@ -66,34 +58,30 @@ const Notification = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [data]);
+  }, [data, newNoti, process]);
 
   const handleOnClickEvent = async (_notification: any) => {
-    console.log(_notification);
     const claimBody: ApiClickClaimNotificationBody = {
-      user: data.user.email,
+      user: data?.user?.email,
       notification: _notification.id,
     };
 
     try {
-      const response = await apiService.claimService.apiClickClaimNotification(
-        claimBody
-      );
-      console.log(response);
+      const response =
+        await djangoApiService.notificationService.apiClickClaimNotification(
+          claimBody
+        );
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    setInterval(() => getNotifications(), 10000);
-  }, [getNotifications]);
 
   return (
     <Menu as='div' className='relative ml-3'>
       <Menu.Button
         type='button'
         className='rounded-full p-1 text-gray-400 hover:text-indigo-600 focus:ring-white-500'
+        onClick={() => getNotifications()}
       >
         <span className='sr-only'>View notifications</span>
         {newNoti == 0 ? (
@@ -113,14 +101,11 @@ const Notification = () => {
       >
         {notifications.length > 0 ? (
           <Menu.Items className='w-68 absolute right-0 z-10 mt-2 max-h-72 origin-top-right divide-y divide-gray-300 overflow-y-auto rounded-md bg-white-300 py-1 shadow-lg ring-1 ring-black-500 ring-opacity-5 focus:outline-none'>
-            {notifications.map((notification) => (
-              <Menu.Item>
+            {notifications.map((notification, i) => (
+              <Menu.Item key={i}>
                 <button onClick={() => handleOnClickEvent(notification)}>
                   {notification.view_count == 0 ? (
-                    <div
-                      key={notification.id}
-                      className='w-80 py-3 px-4 text-sm hover:bg-gray-300'
-                    >
+                    <div className='w-80 py-3 px-4 text-sm hover:bg-gray-300'>
                       <div className='text-xs text-indigo-800'>
                         {notification.img_path}
                       </div>
@@ -130,11 +115,10 @@ const Notification = () => {
                       </div>
                     </div>
                   ) : (
-                    <div
-                      key={notification.id}
-                      className='w-80 py-3 px-4 text-sm text-gray-900 opacity-30'
-                    >
-                      <div className='text-indigo-800'>{notification.img_path}</div>
+                    <div className='w-80 py-3 px-4 text-sm text-gray-900 opacity-30'>
+                      <div className='text-indigo-800'>
+                        {notification.img_path}
+                      </div>
                       <div>{notification.finished}</div>
                       <div className='text-xs text-gray-600'>
                         {notification.finished_time}
@@ -143,7 +127,8 @@ const Notification = () => {
                   )}
                 </button>
               </Menu.Item>
-            ))};
+            ))}
+            ;
           </Menu.Items>
         ) : (
           <Menu.Items className='w-54 absolute right-0 z-10 mt-2 origin-top-right divide-y divide-gray-300 rounded-md bg-white-300 py-1 shadow-lg ring-1 ring-black-500 ring-opacity-5 focus:outline-none'>

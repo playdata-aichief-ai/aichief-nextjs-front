@@ -1,18 +1,10 @@
-import type { PhotoKinds } from './';
+import type { PhotoKinds, result } from './';
 
 /**
  * 모든 api요청이 공통으로 갖는 타입
  */
 type ApiResponse = {
   message: string | null;
-};
-
-type result = {
-  // view_count: number;
-  user: string;
-  img_path: string;
-  finished: string;
-  finished_time: string;
 };
 
 /**
@@ -91,59 +83,6 @@ export type ApiEditUserPhotoResponse = ApiResponse & {
   preSignedURL: string | null;
   photoURL: string | null;
 };
-
-/**
- * 주소 생성 송신 타입
- */
-export type ApiCreateAddressBody = {
-  name: string;
-  address: string;
-  residence: string;
-  phone: string;
-  message: string;
-  isDefault: boolean;
-};
-/**
- * 주소 생성 송신 타입
- */
-export type ApiCreateAddressResponse = ApiResponse & {};
-
-/**
- * 로그인한 유저의 등록된 모든 주소들 요청 송신 타입
- */
-export type ApiGetAllAddressBody = {};
-/**
- * 로그인한 유저의 등록된 모든 주소들 요청 수신 타입
- */
-export type ApiGetAllAddressResponse = ApiResponse & { addresses?: any[] };
-/**
- * 주소 삭제 송신 타입
- */
-export type ApiDeleteAddressBody = { idx: number };
-/**
- * 주소 삭제 수신 타입
- */
-export type ApiDeleteAddressResponse = ApiResponse & {};
-
-/**
- * 주소 수정 송신 타입
- */
-export type ApiUpdateAddressBody = ApiCreateAddressBody & { idx: number };
-/**
- * 주소 수정 수신 타입
- */
-export type ApiUpdateAddressResponse = ApiResponse & {};
-
-/**
- * 로그인한 유저의 기본 주소 요청 송신 타입
- * 기본 주소가 없다면 제일 처음 등록한 주소 요청
- */
-export type ApiGetAddressBody = {};
-/**
- * 로그인한 유저의 기본 주소 요청 수신 타입
- * 기본 주소가 없다면 제일 처음 등록한 주소 반환
- */
-export type ApiGetAddressResponse = ApiResponse & { address: any | null };
 
 /**
  * 임시 저장된 이미지 제거 송신 타입
@@ -285,7 +224,7 @@ export type ApiGetClaimsNotificationsBody = { id: string };
  * 청구 진행알림 수신 타입
  */
 export type ApiGetClaimsNotificationsResponse = ApiResponse & {
-  results: result[];
+  data: result[];
 };
 
 /**

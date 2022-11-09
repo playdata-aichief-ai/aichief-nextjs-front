@@ -1,23 +1,15 @@
 export type {
   ApiClickClaimNotificationBody,
-  ApiCreateAddressBody,
-  ApiCreateAddressResponse,
   ApiCreateClaimBody,
   ApiCreateClaimResponse,
   ApiCreatePhotoBody,
   ApiCreatePhotoResponse,
-  ApiDeleteAddressBody,
-  ApiDeleteAddressResponse,
   ApiDeletePhotoBody,
   ApiDeletePhotoResponse,
   ApiDeletePhotosBody,
   ApiDeletePhotosResponse,
   ApiEditUserPhotoBody,
   ApiEditUserPhotoResponse,
-  ApiGetAddressBody,
-  ApiGetAddressResponse,
-  ApiGetAllAddressBody,
-  ApiGetAllAddressResponse,
   ApiGetClaimantsBody,
   ApiGetClaimantsResponse,
   ApiGetClaimBody,
@@ -38,8 +30,6 @@ export type {
   ApiLogInResponse,
   ApiSignUpBody,
   ApiSignUpResponse,
-  ApiUpdateAddressBody,
-  ApiUpdateAddressResponse,
   ApiUpdateClaimBody,
   ApiUpdateClaimResponse,
   ApiDeleteClaimBody,
@@ -52,3 +42,11 @@ export type { ICON } from './icon';
 
 // 이미지 종류
 export type PhotoKinds = 'claim' | 'remove';
+
+export type result = {
+  view_count?: number;
+  user: string;
+  img_path: string;
+  finished: string;
+  finished_time: string;
+};
