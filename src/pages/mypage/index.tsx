@@ -1,8 +1,9 @@
+import { Dialog, Transition } from '@headlessui/react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
-import { useCallback } from 'react';
+import { Fragment, useCallback, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Seo = dynamic(() => import('@/components/common/Seo'), {
@@ -15,11 +16,18 @@ const InfoMenu = dynamic(() => import('@/components/Main/InfoMenu'), {
   suspense: true,
 });
 
+import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 import type { NextPage } from 'next';
+
+import Icon from '@/components/common/Icon';
+
+import apiService from '@/api';
 
 const Mypage: NextPage = () => {
   const router = useRouter();
   const { data } = useSession();
+  const [open, setOpen] = useState(false);
+  const cancelButtonRef = useRef(null);
 
   const onClickLogOut = useCallback(() => {
     const toastId = toast.loading('로그아웃중입니다.');
@@ -32,6 +40,44 @@ const Mypage: NextPage = () => {
       isLoading: false,
       autoClose: 1500,
     });
+  }, []);
+
+  const onClickWithdrawal = useCallback(async () => {
+    const toastId = toast.loading('회원탈퇴를 요청 중 입니다.');
+    if (!data?.user?.email) return;
+    try {
+      const {
+        data: { message },
+      } = await apiService.userService.apiDeleteUser({
+        email: data?.user?.email,
+      });
+
+      toast.update(toastId, {
+        render: message,
+        type: 'success',
+        isLoading: false,
+        autoClose: 1500,
+      });
+      router.push(`/`);
+    } catch (error) {
+      console.error('error >> ', error);
+
+      if (error instanceof AxiosError) {
+        toast.update(toastId, {
+          render: error.response?.data.message,
+          type: 'error',
+          isLoading: false,
+          autoClose: 1500,
+        });
+      } else {
+        toast.update(toastId, {
+          render: '알 수 없는 에러가 발생했습니다.',
+          type: 'error',
+          isLoading: false,
+          autoClose: 1500,
+        });
+      }
+    }
   }, []);
 
   return (
@@ -119,10 +165,106 @@ const Mypage: NextPage = () => {
                     />
                   </>
                 )}
+                <>
+                  <a
+                    className='flex w-full items-center border-t border-gray-100 py-4 pl-6 pr-3 text-red-500 transition duration-150 hover:bg-gray-100'
+                    onClick={() => setOpen(true)}
+                  >
+                    <Icon
+                      shape='logout'
+                      className='flex h-4 w-4 sm:h-5 sm:w-5'
+                    />
+                    <span className='font-bolder flex-1 pl-3 sm:text-lg'>
+                      탈퇴하기
+                    </span>
+                    <Icon
+                      shape='arrowRight'
+                      className='h-5 w-5 sm:h-6 sm:w-6'
+                    />
+                  </a>
+                </>
               </div>
             </div>
           </div>
         </div>
+        <Transition.Root show={open} as={Fragment}>
+          <Dialog
+            as='div'
+            className='relative z-10'
+            initialFocus={cancelButtonRef}
+            onClose={setOpen}
+          >
+            <Transition.Child
+              as={Fragment}
+              enter='ease-out duration-300'
+              enterFrom='opacity-0'
+              enterTo='opacity-100'
+              leave='ease-in duration-200'
+              leaveFrom='opacity-100'
+              leaveTo='opacity-0'
+            >
+              <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
+            </Transition.Child>
+
+            <div className='fixed inset-0 z-10 overflow-y-auto'>
+              <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
+                <Transition.Child
+                  as={Fragment}
+                  enter='ease-out duration-300'
+                  enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
+                  enterTo='opacity-100 translate-y-0 sm:scale-100'
+                  leave='ease-in duration-200'
+                  leaveFrom='opacity-100 translate-y-0 sm:scale-100'
+                  leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
+                >
+                  <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white-500 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
+                    <div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
+                      <div className='sm:flex sm:items-start'>
+                        <div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10'>
+                          <ExclamationTriangleIcon
+                            className='h-6 w-6 text-red-600'
+                            aria-hidden='true'
+                          />
+                        </div>
+                        <div className='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
+                          <Dialog.Title
+                            as='h3'
+                            className='text-lg font-medium leading-6 text-gray-900'
+                          >
+                            탈퇴하기
+                          </Dialog.Title>
+                          <div className='mt-2'>
+                            <p className='text-sm text-gray-700'>
+                              정말 계정을 탈퇴하시겠습니까? 등록하신 청구와 모든
+                              기록이 사라집니다.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
+                      <button
+                        type='button'
+                        className='inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white-500 shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm'
+                        onClick={() => onClickWithdrawal()}
+                      >
+                        삭제하기
+                      </button>
+                      <button
+                        type='button'
+                        className='mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white-500 px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
+                        onClick={() => setOpen(false)}
+                        ref={cancelButtonRef}
+                      >
+                        닫기
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
       </article>
     </>
   );
