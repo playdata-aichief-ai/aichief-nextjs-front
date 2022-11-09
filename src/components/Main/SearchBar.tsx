@@ -79,7 +79,7 @@ const SearchBar = () => {
         <select
           onChange={handleSelectFilter}
           value={filter}
-          className='inline-flex flex-shrink-0 items-center rounded-l-lg border border-gray-300 bg-gray-100 py-2.5 px-4 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100'
+          className='inline-flex flex-shrink-0 items-center rounded-l-lg border border-gray-300 bg-gray-100 py-2.5 px-4 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:bg-gray-500 dark:text-gray-800'
         >
           {Object.entries(filterList).map(([key, value]) => (
             <option value={value} key={key}>
@@ -98,7 +98,7 @@ const SearchBar = () => {
             })}
             hiddenLabel={true}
             hiddenMessage={true}
-            className='z-20 w-full rounded-r-lg bg-gray-50 text-sm text-gray-900'
+            className='z-20 w-full rounded-r-lg bg-gray-50 text-sm text-gray-900 dark:bg-gray-500 dark:text-gray-800'
           />
 
           <button

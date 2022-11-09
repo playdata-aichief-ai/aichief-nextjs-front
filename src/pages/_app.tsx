@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
+import { ThemeProvider } from 'next-themes';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { RecoilRoot } from 'recoil';
@@ -24,9 +25,11 @@ function MyApp({ Component, pageProps }: AppProps) {
             hideProgressBar
             limit={3}
           />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <ThemeProvider attribute='class'>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
         </React.Suspense>
       </SessionProvider>
     </RecoilRoot>

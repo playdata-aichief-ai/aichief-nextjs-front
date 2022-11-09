@@ -98,7 +98,7 @@ const Claimants: NextPage = () => {
                 </div>
               </div>
             </div>
-            {claimants.length === 1 ? (
+            {claimants.length === 0 ? (
               <h6 className='font-bolder text-center text-lg text-red-500'>
                 담당하신 청구자가 존재하지 않습니다.
               </h6>

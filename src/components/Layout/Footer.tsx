@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <>
       © {new Date().getFullYear()} By{' '}
-      <UnderlineLink href='https://theodorusclarence.com?ref=tsnextstarter'>
+      <UnderlineLink href='https://github.com/playdata-aichief-ai'>
         AI계장님
       </UnderlineLink>
     </>

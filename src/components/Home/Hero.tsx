@@ -13,14 +13,14 @@ type Props = {
 const Hero = ({ onFeatureClick }: Props) => {
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
   return (
-    <div className='py-20'>
+    <div className='py-20 dark:bg-gray-700'>
       <ScrollAnimationWrapper>
         <motion.div
           className='container mx-auto mb-6 flex flex-col space-y-6 px-6 py-4 lg:h-[32rem] lg:flex-row lg:items-center'
           variants={scrollAnimation}
         >
           <div className='w-full lg:w-1/2'>
-            <div className='mx-auto mb-8 max-w-lg text-center lg:mx-0 lg:max-w-md lg:text-left'>
+            <div className='mx-auto mb-8 max-w-lg text-center dark:text-white-300 lg:mx-0 lg:max-w-md lg:text-left'>
               <h2 className='mb-4 text-3xl font-bold lg:text-5xl'>
                 AI 계장님을 통한
                 <br />

@@ -8,14 +8,14 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className='bg-gray-50'>
+    <div className='bg-gray-50 dark:bg-gray-700'>
       <header>
         <Narvar />
       </header>
 
       <main>{children}</main>
 
-      <footer className='py-5 text-center text-gray-700'>
+      <footer className='py-5 text-center text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
         <Footer />
       </footer>
 

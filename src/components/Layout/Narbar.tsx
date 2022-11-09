@@ -2,6 +2,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
+import { useTheme } from 'next-themes';
 import { Fragment } from 'react';
 
 import { combineClassNames } from '@/lib';
@@ -13,10 +14,12 @@ import Notification from '@/components/Layout/Notification';
 
 export default function Narbar() {
   const { data, status } = useSession();
+  const { theme, setTheme } = useTheme();
+
   return (
     <Disclosure
       as='nav'
-      className='bg-white/80  fixed top-0 left-0 right-0 z-10 px-8 shadow-md backdrop-blur-md'
+      className='bg-white/80  fixed top-0 left-0 right-0 z-10 px-8 shadow-md backdrop-blur-md dark:bg-dark/50'
     >
       {({ open }) => (
         <>
@@ -24,7 +27,7 @@ export default function Narbar() {
             <div className='relative flex h-16 items-center justify-between'>
               <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
                 {/* Mobile menu button*/}
-                <Disclosure.Button className='focus:ring-white inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-inset'>
+                <Disclosure.Button className='focus:ring-white inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-inset dark:text-gray-100'>
                   <span className='sr-only'>Open main menu</span>
                   {open ? (
                     <Icon
@@ -119,6 +122,22 @@ export default function Narbar() {
                             </Link>
                           )}
                         </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              className={combineClassNames(
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
+                              )}
+                              onClick={() =>
+                                setTheme(theme === 'dark' ? 'light' : 'dark')
+                              }
+                            >
+                              테마 변경
+                            </a>
+                          )}
+                        </Menu.Item>
+
                         <Menu.Item>
                           {({ active }) => (
                             <a
