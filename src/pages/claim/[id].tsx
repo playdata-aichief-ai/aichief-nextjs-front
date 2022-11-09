@@ -129,8 +129,6 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
       claimId: claim.claim.claimId,
     };
 
-    console.log(JSON.stringify(claimEditBody));
-
     try {
       const data = await apiService.claimService.apiEditClaim(claimEditBody);
 

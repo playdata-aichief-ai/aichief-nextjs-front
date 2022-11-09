@@ -43,14 +43,14 @@ export type ApiLogInResponse = ApiResponse & {
 };
 
 /**
- * 유저 상세 정보 요청
+ * 유저 탈퇴 송신 타입
  */
-export type ApiGetUserBody = { email: string };
+export type ApiDeleteUserBody = { email: string };
 
 /**
- * 유저 상세 정보 수신
+ * 유저 탈퇴 수신 타입
  */
-export type ApiGetUserResponse = ApiResponse & { contents: any };
+export type ApiDeleteUserResponse = ApiResponse;
 
 /**
  * 유저 일반 정보 수정 송신 타입
@@ -70,19 +70,16 @@ export type ApiUpdateUserBody = Pick<
  * 유저 일반 정보 수정 수신 타입
  */
 export type ApiUpdateUserResponse = ApiResponse & { user?: any | null };
+
 /**
- * 이미지 수정 송신 타입
- * 기존 이미지를 제거하고 새로운 이미지를 추가할 수 있는 "preSingedUrl"을 얻는 타입
+ * 유저 상세 정보 요청
  */
-export type ApiEditUserPhotoBody = { file: File };
+export type ApiGetUserBody = { email: string };
+
 /**
- * 이미지 수정 수신 타입
- * 기존 이미지를 제거하고 새로운 이미지를 추가할 수 있는 "preSingedUrl"을 얻는 타입
+ * 유저 상세 정보 수신
  */
-export type ApiEditUserPhotoResponse = ApiResponse & {
-  preSignedURL: string | null;
-  photoURL: string | null;
-};
+export type ApiGetUserResponse = ApiResponse & { contents: any };
 
 /**
  * 임시 저장된 이미지 제거 송신 타입

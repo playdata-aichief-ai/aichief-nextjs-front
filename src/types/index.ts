@@ -8,8 +8,6 @@ export type {
   ApiDeletePhotoResponse,
   ApiDeletePhotosBody,
   ApiDeletePhotosResponse,
-  ApiEditUserPhotoBody,
-  ApiEditUserPhotoResponse,
   ApiGetClaimantsBody,
   ApiGetClaimantsResponse,
   ApiGetClaimBody,
@@ -36,6 +34,10 @@ export type {
   ApiDeleteClaimResponse,
   ApiUpdateUserBody,
   ApiUpdateUserResponse,
+  ApiGetUserBody,
+  ApiGetUserResponse,
+  ApiDeleteUserBody,
+  ApiDeleteUserResponse,
 } from './api';
 
 export type { ICON } from './icon';

@@ -7,8 +7,6 @@ import type {
   ApiCreatePhotoResponse,
   ApiDeletePhotoBody,
   ApiDeletePhotoResponse,
-  ApiEditUserPhotoBody,
-  ApiEditUserPhotoResponse,
 } from '@/types';
 
 /**
@@ -60,53 +58,6 @@ const apiCreatePhoto = async ({
 };
 
 /**
- * 이미지 수정
- * @param file 수정할 이미지 파일
- * @returns
- */
-const apiEditUserPhoto = async ({
-  file,
-}: ApiEditUserPhotoBody): Promise<ApiEditUserPhotoResponse> => {
-  try {
-    const {
-      data: { preSignedURL, photoURL, message },
-    } = await axiosInstance.put<ApiEditUserPhotoResponse>(
-      `/user/photo?name=${file.name}`
-    );
-
-    // 예측 불가능한 에러
-    if (!preSignedURL)
-      return {
-        preSignedURL,
-        photoURL,
-        message: '알 수 없는 에러입니다. 잠시후에 다시 시도해주세요!',
-      };
-
-    await axios.put(preSignedURL, file, {
-      headers: { 'Content-Type': file.type },
-    });
-
-    return { preSignedURL, photoURL, message };
-  } catch (error) {
-    console.error('apiEditUserPhoto() >> ', error);
-
-    // 예측 가능한 에러 ( 잘못된 형식의 데이터를 전달받음 )
-    if (error instanceof AxiosError) {
-      const { preSignedURL, photoURL, message } = error.response?.data;
-
-      return { preSignedURL, photoURL, message };
-    }
-
-    // 예측 불가능한 에러
-    return {
-      preSignedURL: null,
-      photoURL: null,
-      message: '이미지 업데이트에 실패했습니다. 잠시후에 다시 시도해주세요!',
-    };
-  }
-};
-
-/**
  * 이미지 제거
  * @param name 이미지 이름
  * @returns 결과 메시지 ( message )
@@ -141,7 +92,6 @@ const apiDeletePhoto = async ({
  */
 const photoService = {
   apiCreatePhoto,
-  apiEditUserPhoto,
   apiDeletePhoto,
 };
 
