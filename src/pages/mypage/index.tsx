@@ -131,7 +131,7 @@ const Mypage: NextPage = () => {
               </Link>
               <span
                 onClick={onClickLogOut}
-                className='bg-white dark:text-white inline-flex items-center rounded-lg border border-gray-300 py-2 px-4 text-center text-sm font-medium text-gray-100 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700'
+                className='inline-flex items-center rounded-lg border border-gray-600  bg-gray-800 py-2 px-4 text-center text-sm font-medium text-white-500 hover:border-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-700'
               >
                 로그아웃
               </span>
