@@ -37,9 +37,6 @@ import type { ApiGetClaimsByEmailResponse, ApiUpdateClaimBody } from '@/types';
 const Title = dynamic(() => import('@/components/common//Title'), {
   suspense: true,
 });
-const Modal = dynamic(() => import('@/components/common/Modal'), {
-  suspense: true,
-});
 const ErrorPage = dynamic(() => import('@/components/common/ErrorPage'), {
   suspense: true,
 });
@@ -93,7 +90,7 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
     setValue('serialNumber', claim.identification.serialNumber);
     setValue('issueBy', claim.identification.issueBy);
     setValue('issueDate', claim.identification.issueDate);
-  }, [setValue]);
+  }, [setValue, claim]);
 
   //  유저 초기 정보 입력
   useEffect(() => initialize(), [initialize]);
@@ -168,13 +165,13 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
   // 청구 정보 수정 버튼 클릭
   const onClickUpdateClaim = useCallback(() => {
     setChangeClaimInfo(false);
-  }, [setValue]);
+  }, []);
 
   // 청구 정보 수정 취소 버튼 클릭
   const onReset = useCallback(() => {
     initialize();
     setChangeClaimInfo(true);
-  }, [initialize, setChangeClaimInfo, setValue]);
+  }, [initialize, setChangeClaimInfo]);
 
   const onClickDeleteClaim = useCallback(async () => {
     const toastId = toast.loading('청구 삭제를 요청 중 입니다.');
@@ -374,7 +371,7 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
                               })}
                             />
                             <span className='xs:text-sm px-2 text-xs font-semibold text-red-600'>
-                              {errors.diseaseName?.message!.toString()}
+                              {errors.diseaseName?.message?.toString()}
                             </span>
                           </dd>
                         </div>
@@ -401,7 +398,7 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
                               })}
                             />
                             <span className='xs:text-sm px-2 text-xs font-semibold text-red-600'>
-                              {errors.accidentLocation?.message!.toString()}
+                              {errors.accidentLocation?.message?.toString()}
                             </span>
                           </dd>
                         </div>
@@ -418,7 +415,7 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
                               {...register('accidentDateTime')}
                             />
                             <span className='xs:text-sm px-2 text-xs font-semibold text-red-600'>
-                              {errors.accidentDateTime?.message!.toString()}
+                              {errors.accidentDateTime?.message?.toString()}
                             </span>
                           </dd>
                         </div>
@@ -445,7 +442,7 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
                               })}
                             />
                             <span className='xs:text-sm px-2 text-xs font-semibold text-red-600'>
-                              {errors.accidentDetails?.message!.toString()}
+                              {errors.accidentDetails?.message?.toString()}
                             </span>
                           </dd>
                         </div>
@@ -505,7 +502,7 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
                               })}
                             />
                             <span className='xs:text-sm px-2 text-xs font-semibold text-red-600'>
-                              {errors.bankName?.message!.toString()}
+                              {errors.bankName?.message?.toString()}
                             </span>
                           </dd>
                         </div>
@@ -532,7 +529,7 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
                               })}
                             />
                             <span className='xs:text-sm px-2 text-xs font-semibold text-red-600'>
-                              {errors.accountNumber?.message!.toString()}
+                              {errors.accountNumber?.message?.toString()}
                             </span>
                           </dd>
                         </div>
@@ -712,7 +709,7 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
                               })}
                             />
                             <span className='xs:text-sm px-2 text-xs font-semibold text-red-600'>
-                              {errors.identificationNumber?.message!.toString()}
+                              {errors.identificationNumber?.message?.toString()}
                             </span>
                           </dd>
                         </div>
@@ -739,7 +736,7 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
                               })}
                             />
                             <span className='xs:text-sm px-2 text-xs font-semibold text-red-600'>
-                              {errors.serialNumber?.message!.toString()}
+                              {errors.serialNumber?.message?.toString()}
                             </span>
                           </dd>
                         </div>
