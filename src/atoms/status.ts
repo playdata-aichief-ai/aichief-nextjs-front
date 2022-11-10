@@ -3,13 +3,13 @@ import { atom } from 'recoil';
 /**
  * 저장된 상태 요청
  */
-export const statusState = atom<string>({
+export const statusState = atom<any>({
   key: 'statusState',
-  default: 'all',
+  default: [],
 });
 
 /**
- * 필터링 관련 states 객체
+ * 로그인 states 객체
  */
 const statusService = {
   statusState,

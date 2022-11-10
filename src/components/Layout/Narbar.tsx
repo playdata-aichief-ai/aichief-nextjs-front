@@ -3,7 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { combineClassNames } from '@/lib';
 
@@ -12,9 +13,20 @@ import MenuAnchor from '@/components/Layout/MenuAnchor';
 import MobileMenuAnchor from '@/components/Layout/MobileMenuAnchor';
 import Notification from '@/components/Layout/Notification';
 
+import stateService from '@/atoms';
+
 export default function Narbar() {
   const { data, status } = useSession();
   const { theme, setTheme } = useTheme();
+  const [userStatus, setUserStatus] = useRecoilState(
+    stateService.statusService.statusState
+  );
+
+  useEffect(() => {
+    if (data?.user?.role) {
+      setUserStatus(data?.user?.role);
+    }
+  }, [data, setUserStatus]);
 
   return (
     <Disclosure
@@ -55,7 +67,7 @@ export default function Narbar() {
                 <div className='hidden sm:ml-6 sm:block'>
                   <div className='left-0 top-16 flex w-full items-center justify-center justify-items-start space-x-10 px-10 py-3 pt-2'>
                     <MenuAnchor name='홈' url='' />
-                    {data?.user?.role === 'manager' ? (
+                    {userStatus === 'manager' ? (
                       <MenuAnchor name='검색' url='search' />
                     ) : (
                       <MenuAnchor name='업로드' url='upload' />
@@ -63,7 +75,7 @@ export default function Narbar() {
                   </div>
                 </div>
               </div>
-              {status === 'authenticated' ? (
+              {status ? (
                 <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
                   <Notification />
                   {/* Profile dropdown */}
@@ -175,7 +187,7 @@ export default function Narbar() {
           <Disclosure.Panel className='sm:hidden'>
             <div className='space-y-1 px-2 pt-2 pb-3'>
               <MobileMenuAnchor name='홈' url='' shape='home' />
-              {data?.user?.role === 'manager' ? (
+              {userStatus === 'manager' ? (
                 <MobileMenuAnchor name='검색' url='search' shape='search' />
               ) : (
                 <MobileMenuAnchor name='업로드' url='upload' shape='upload' />
