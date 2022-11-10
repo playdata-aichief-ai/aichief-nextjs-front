@@ -73,7 +73,7 @@ const Claims: NextPage = () => {
               <div className='flex items-center'>
                 <Icon shape='arrowRight' className='m-1 h-4 w-4' />
                 <span className='ml-1 text-sm font-medium text-gray-800 md:ml-2'>
-                  고객조회
+                  청구조회
                 </span>
               </div>
             </li>
