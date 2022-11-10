@@ -23,8 +23,8 @@ export default function Narbar() {
   );
 
   useEffect(() => {
-    if (data?.user?.role) {
-      setUserStatus(data?.user?.role);
+    if (data?.user) {
+      setUserStatus(data?.user);
     }
   }, [data, setUserStatus]);
 
@@ -67,7 +67,7 @@ export default function Narbar() {
                 <div className='hidden sm:ml-6 sm:block'>
                   <div className='left-0 top-16 flex w-full items-center justify-center justify-items-start space-x-10 px-10 py-3 pt-2'>
                     <MenuAnchor name='홈' url='' />
-                    {userStatus === 'manager' ? (
+                    {userStatus.role === 'manager' ? (
                       <MenuAnchor name='검색' url='search' />
                     ) : (
                       <MenuAnchor name='업로드' url='upload' />
@@ -75,15 +75,15 @@ export default function Narbar() {
                   </div>
                 </div>
               </div>
-              {status ? (
+              {userStatus ? (
                 <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
                   <Notification />
                   {/* Profile dropdown */}
                   <Menu as='div' className='relative ml-3'>
-                    {data?.user?.image ? (
+                    {userStatus.image ? (
                       <Menu.Button className='h-10 w-10 rounded-full'>
                         <Image
-                          src={data?.user?.image}
+                          src={userStatus.image}
                           alt='user'
                           quality={100}
                           layout='fill'
@@ -153,7 +153,10 @@ export default function Narbar() {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              onClick={() => signOut()}
+                              onClick={() => {
+                                signOut();
+                                setUserStatus([]);
+                              }}
                               className={combineClassNames(
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm text-gray-700'
@@ -187,7 +190,7 @@ export default function Narbar() {
           <Disclosure.Panel className='sm:hidden'>
             <div className='space-y-1 px-2 pt-2 pb-3'>
               <MobileMenuAnchor name='홈' url='' shape='home' />
-              {userStatus === 'manager' ? (
+              {userStatus.role === 'manager' ? (
                 <MobileMenuAnchor name='검색' url='search' shape='search' />
               ) : (
                 <MobileMenuAnchor name='업로드' url='upload' shape='upload' />
