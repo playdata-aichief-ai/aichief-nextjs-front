@@ -61,8 +61,7 @@ const Upload: NextPage = () => {
       const claimBody: ApiCreateClaimBody = {
         company: contract.company,
         contract_id: Number(contract.idx),
-        // user: data?.user?.email,
-        user: 'park@test.com',
+        user: data?.user?.email,
         image_path: photoURL,
       };
       console.log(claimBody);
