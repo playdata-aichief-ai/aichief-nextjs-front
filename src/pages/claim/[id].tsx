@@ -219,16 +219,6 @@ const Claim: NextPage<Props> = ({ claim, relatedClaims }: Props) => {
         </ArrowLink>
         <form onSubmit={handleSubmit(onSubmitClaim)}>
           <>
-            {/* <div className='mx-auto flex justify-center py-3'>
-              <Image
-                width='450px'
-                height='600px'
-                src='https://www.kospo.co.kr/preview/result/temp_1603238668342100.files/1.png'
-                className='xs:h-[450px] h-[300px] w-full md:h-[600px]'
-                alt='대표 이미지'
-                onClick={() => setShowModal(true)}
-              />
-            </div> */}
             <div className='lg:flex lg:items-center lg:justify-between'>
               <div className='min-w-0 flex-1'>
                 <h2 className='text-2xl font-bold leading-7 text-gray-700 sm:truncate sm:text-3xl sm:tracking-tight'>

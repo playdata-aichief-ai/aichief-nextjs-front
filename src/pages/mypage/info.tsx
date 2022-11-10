@@ -1,4 +1,3 @@
-// type
 import { AxiosError } from 'axios';
 import dynamic from 'next/dynamic';
 import { signOut, useSession } from 'next-auth/react';

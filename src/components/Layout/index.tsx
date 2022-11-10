@@ -1,6 +1,6 @@
 import ASide from '@/components/Layout/ASide';
 import Footer from '@/components/Layout/Footer';
-import Narvar from '@/components/Layout/Narbar';
+import Narbar from '@/components/Layout/Narbar';
 
 type Props = {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ const Layout = ({ children }: Props) => {
   return (
     <div className='bg-gray-50 dark:bg-gray-700'>
       <header>
-        <Narvar />
+        <Narbar />
       </header>
 
       <main>{children}</main>

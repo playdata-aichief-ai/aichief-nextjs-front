@@ -16,6 +16,10 @@ class MyDocument extends Document {
     return (
       <Html lang='kr' className='white'>
         <Head>
+          <meta
+            httpEquiv='Content-Security-Policy'
+            content='upgrade-insecure-requests'
+          />
           <link
             rel='preload'
             href='/fonts/inter-var-latin.woff2'
