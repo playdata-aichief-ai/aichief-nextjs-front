@@ -1044,7 +1044,9 @@ export const getStaticProps: GetStaticProps<Props> = async (
     // 현재 청구
     const {
       data: { contents: claims },
-    } = await apiService.claimService.apiGetClaims({ email: 'kim@test.com' });
+    } = await apiService.claimService.apiGetClaims({
+      email: 'omomo4426@naver.com',
+    });
 
     // 현재 상품과 연관된 청구들 ( 같은 청구자를 가진 청구들 )
     const relatedClaimsPromise =
