@@ -29,7 +29,7 @@ const Claims: NextPage = () => {
         let claims: any[] = [];
 
         const { data } = await apiService.claimService.apiGetClaims({
-          email: 'kim@test.com',
+          email: user,
         });
 
         claims = data.contents;
